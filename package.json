@@ -1,6 +1,6 @@
 {
   "name": "@burzilov/users-roles",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Users&Roles module",
   "author": "Ivan Burzilov <ivan@burzilov.ru>",
   "main": "dist/index.js",
