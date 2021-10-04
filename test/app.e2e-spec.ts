@@ -1,24 +1,33 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { UsersRolesService } from '../src/app.service';
+import { UsersRolesOptions } from '../src/app.interfaces';
 
-describe('AppController (e2e)', () => {
-  let app: INestApplication;
+describe('UsersRolesService', () => {
+  let service: UsersRolesService;
+  let module: TestingModule;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+  beforeAll(async () => {
+    const options: UsersRolesOptions = {
+      foo: 'bar',
+    };
+
+    module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: UsersRolesService,
+          useValue: new UsersRolesService(options),
+        },
+      ],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
+    service = module.get<UsersRolesService>(UsersRolesService);
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  it('Foo', () => {
+    service.foo('bar').subscribe({
+      next: (bar: string) => {
+        expect(bar).toBe('bar');
+      },
+    });
   });
 });
